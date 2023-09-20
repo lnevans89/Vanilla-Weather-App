@@ -3,5 +3,15 @@
   margin: 30px auto;
   padding: 20px;
   border: 1px solid darkgray;
-  border-radius: 5px;
+  border-radius: 7px;
+}
+h1 {
+  color: rgb(135, 135, 135);
+  display: block;
+  font-family: arial, sans-serif;
+  font-size: 25px;
+  font-weight: 100;
+  height: 27px;
+  line-height: 28.8px;
+  text-align: left;
 }
