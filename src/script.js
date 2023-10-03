@@ -1,11 +1,16 @@
 function formatDate(timestamp) {
-  let date = new Date(timestamp * 1000); // Convert the timestamp to milliseconds
+  let date = new Date(timestamp * 1000); 
   let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   let day = days[date.getDay()];
   let hours = date.getHours();
+
+  if (hours < 10) {
+    hours = "0" + hours;
+  }
+
   let minutes = date.getMinutes();
 
-  // Ensure that the minutes are displayed with leading zeros if they are less than 10
+
   if (minutes < 10) {
     minutes = "0" + minutes;
   }
@@ -28,7 +33,7 @@ function displayTemperature(response) {
   humidityElement.innerHTML = response.data.main.humidity;
   windElement.innerHTML = Math.round(response.data.wind.speed);
 
-  // Note: Typo in "precipitation" fixed, and it's better to check if the field exists in the response
+  
   if (response.data.hasOwnProperty("rain")) {
     precipitationElement.innerHTML = response.data.rain["1h"] + "mm";
   } else {
