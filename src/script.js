@@ -1,5 +1,5 @@
 function formatDate(timestamp) {
-  let date = new Date(timestamp * 1000); 
+  let date = new Date(timestamp * 1000);
   let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   let day = days[date.getDay()];
   let hours = date.getHours();
@@ -9,7 +9,6 @@ function formatDate(timestamp) {
   }
 
   let minutes = date.getMinutes();
-
 
   if (minutes < 10) {
     minutes = "0" + minutes;
@@ -36,8 +35,6 @@ function displayTemperature(response) {
   iconElement.setAttribute("src", `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
   iconElement.setAttribute("alt", response.data.weather[0].description);
 
-
-  
   if (response.data.hasOwnProperty("rain")) {
     precipitationElement.innerHTML = response.data.rain["1h"] + "mm";
   } else {
@@ -47,8 +44,20 @@ function displayTemperature(response) {
   dateElement.innerHTML = formatDate(response.data.dt);
 }
 
-let apiKey = "729ec012e09d75893dd32df26e7e21a4";
-let city = "Memphis";
-let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
+function search(city) {
+  let apiKey = "729ec012e09d75893dd32df26e7e21a4";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
+  axios.get(apiUrl).then(displayTemperature);
+}
 
-axios.get(apiUrl).then(displayTemperature);
+function handleSubmit(event) {
+  event.preventDefault();
+  let cityInputElement = document.querySelector("#city-input");
+  search(cityInputElement.value);
+}
+
+search("Memphis");
+
+let form = document.querySelector("#search-form");
+form.addEventListener("submit", handleSubmit);
+
