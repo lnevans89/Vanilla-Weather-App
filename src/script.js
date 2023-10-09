@@ -20,6 +20,7 @@ function formatDate(timestamp) {
   return `${day} ${hours}:${minutes}`;
 }
 
+
 function displayTemperature(response) {
   let temperatureElement = document.querySelector("#temperature");
   let cityElement = document.querySelector("#city");
@@ -83,6 +84,28 @@ function displayFahrenheitTemperature(event) {
   celsiusLink.classList.remove("active");
 }
 
+function displayForecast() {
+  let forecastElement = document.querySelector("#forecast");
+
+  let forecastHTML = '<div class = "row">';
+  let days = ["Thu", "Fri", "Sat","Sun","Mon","Tue"];
+
+  days.forEach(function (day) {
+    forecastHTML += `
+      <div class="col-2">
+        <div class="weather-forecast-date">${day}</div>
+        <img src="http://openweathermap.org/img/wn/01d.png" alt="" width="36" />
+        <div class="weather-forecast-temperature">
+          <span class="weather-forecast-temperature-max">82°</span>
+          <span class="weather-forecast-temperature-min">53°</span>
+        </div>
+      </div>`;
+  });
+
+  forecastHTML += '</div>';
+  forecastElement.innerHTML = forecastHTML;
+}
+
 let form = document.querySelector("#search-form");
 form.addEventListener("submit", handleSubmit);
 
@@ -93,3 +116,4 @@ let fahrenheitLink = document.querySelector("#fahrenheit-link");
 fahrenheitLink.addEventListener("click", displayFahrenheitTemperature);
 
 search("Memphis");
+displayForecast();
