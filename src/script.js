@@ -20,7 +20,6 @@ function formatDate(timestamp) {
   return `${day} ${hours}:${minutes}`;
 }
 
-
 function displayTemperature(response) {
   let temperatureElement = document.querySelector("#temperature");
   let cityElement = document.querySelector("#city");
@@ -54,6 +53,14 @@ function displayTemperature(response) {
   celsiusTemperature = temperatureInCelsius;
 }
 
+function getForecast(coordinates) {
+  console.log(coordinates);
+  let apiKey = "729ec012e09d75893dd32df26e7e21a4";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayForecast);
+}
+
+
 function search(city) {
   let apiKey = "729ec012e09d75893dd32df26e7e21a4";
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
@@ -70,25 +77,27 @@ function displayCelsiusTemperature(event) {
   event.preventDefault();
   let temperatureElement = document.querySelector("#temperature");
   temperatureElement.innerHTML = Math.round(celsiusTemperature) + "°C";
+  let celsiusLink = document.querySelector("#celsius-link");
+  let fahrenheitLink = document.querySelector("#fahrenheit-link");
   celsiusLink.classList.add("active");
   fahrenheitLink.classList.remove("active");
 }
 
 function displayFahrenheitTemperature(event) {
   event.preventDefault();
-  celsiusLink.classList.add("active");
-  fahrenheitLink.classList.remove("active");
   let temperatureElement = document.querySelector("#temperature");
   temperatureElement.innerHTML = Math.round(fahrenheitTemperature) + "°F";
-  fahrenheitLink.classList.add("active");
+  let celsiusLink = document.querySelector("#celsius-link");
+  let fahrenheitLink = document.querySelector("#fahrenheit-link");
   celsiusLink.classList.remove("active");
+  fahrenheitLink.classList.add("active");
 }
 
 function displayForecast() {
   let forecastElement = document.querySelector("#forecast");
 
-  let forecastHTML = '<div class = "row">';
-  let days = ["Thu", "Fri", "Sat","Sun","Mon","Tue"];
+  let forecastHTML = '<div class="row">';
+  let days = ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue"];
 
   days.forEach(function (day) {
     forecastHTML += `
@@ -117,3 +126,4 @@ fahrenheitLink.addEventListener("click", displayFahrenheitTemperature);
 
 search("Memphis");
 displayForecast();
+
