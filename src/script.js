@@ -1,5 +1,3 @@
-let fahrenheitTemperature = null;
-let celsiusTemperature = null;
 
 function formatDate(timestamp) {
   let date = new Date(timestamp * 1000);
@@ -19,6 +17,29 @@ function formatDate(timestamp) {
 
   return `${day} ${hours}:${minutes}`;
 }
+
+function displayForecast(response) {
+  let forecast = response.data.daily;
+  let forecastElement = document.querySelector("#forecast");
+  let forecastHTML = `<div class="row">`;
+
+  forecast.forEach(function (forecastDay, index) { 
+    if (index < 6 ) {
+    forecastHTML += `
+      <div class="col-2">
+        <div class="weather-forecast-date">${formatDay(forecastDay.dt)}</div> ${index}
+        <img src="http://openweathermap.org/img/wn/${forecastDay.weather[0].icon}@2x.png" alt="" width="36" />
+        <div class="weather-forecast-temperature">
+          <span class="weather-forecast-temperature-max">${forecastDay.temp.max}°</span>
+          <span class="weather-forecast-temperature-min">${forecastDay.temp.min}°</span>
+        </div>
+      </div>`; }
+  });
+
+  forecastHTML += '</div>';
+  forecastElement.innerHTML = forecastHTML;
+}
+
 
 function displayTemperature(response) {
   let temperatureElement = document.querySelector("#temperature");
@@ -52,7 +73,6 @@ function displayTemperature(response) {
   fahrenheitTemperature = temperatureInFahrenheit;
   celsiusTemperature = temperatureInCelsius;
 }
-
 function getForecast(coordinates) {
   console.log(coordinates);
   let apiKey = "729ec012e09d75893dd32df26e7e21a4";
@@ -93,26 +113,11 @@ function displayFahrenheitTemperature(event) {
   fahrenheitLink.classList.add("active");
 }
 
-function displayForecast() {
-  let forecastElement = document.querySelector("#forecast");
-
-  let forecastHTML = '<div class="row">';
-  let days = ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue"];
-
-  days.forEach(function (day) {
-    forecastHTML += `
-      <div class="col-2">
-        <div class="weather-forecast-date">${day}</div>
-        <img src="http://openweathermap.org/img/wn/01d.png" alt="" width="36" />
-        <div class="weather-forecast-temperature">
-          <span class="weather-forecast-temperature-max">82°</span>
-          <span class="weather-forecast-temperature-min">53°</span>
-        </div>
-      </div>`;
-  });
-
-  forecastHTML += '</div>';
-  forecastElement.innerHTML = forecastHTML;
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  return days[day];
 }
 
 let form = document.querySelector("#search-form");
@@ -124,6 +129,8 @@ celsiusLink.addEventListener("click", displayCelsiusTemperature);
 let fahrenheitLink = document.querySelector("#fahrenheit-link");
 fahrenheitLink.addEventListener("click", displayFahrenheitTemperature);
 
+let fahrenheitTemperature = null;
+let celsiusTemperature = null;
+
 search("Memphis");
 displayForecast();
-
