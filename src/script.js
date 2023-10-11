@@ -25,13 +25,14 @@ function displayForecast(response) {
 
   forecast.forEach(function (forecastDay, index) { 
     if (index < 6 ) {
-    forecastHTML += `
+    forecastHTML =
+    forecastHTML + `
       <div class="col-2">
         <div class="weather-forecast-date">${formatDay(forecastDay.dt)}</div> ${index}
         <img src="http://openweathermap.org/img/wn/${forecastDay.weather[0].icon}@2x.png" alt="" width="36" />
         <div class="weather-forecast-temperature">
-          <span class="weather-forecast-temperature-max">${forecastDay.temp.max}°</span>
-          <span class="weather-forecast-temperature-min">${forecastDay.temp.min}°</span>
+          <span class="weather-forecast-temperature-max">${Math.round(forecastDay.temp.max)}°</span>
+          <span class="weather-forecast-temperature-min">${Math.round(forecastDay.temp.min)}°</span>
         </div>
       </div>`; }
   });
@@ -61,6 +62,8 @@ function displayTemperature(response) {
   windElement.innerHTML = Math.round(response.data.wind.speed);
   iconElement.setAttribute("src", `http://openweathermap.org/img/wn/${response.data.weather[0].icon}.png`);
   iconElement.setAttribute("alt", response.data.weather[0].description);
+
+  getForecast(response.data.coord);
 
   if (response.data.hasOwnProperty("rain")) {
     precipitationElement.innerHTML = response.data.rain["1h"] + "mm";
