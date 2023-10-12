@@ -48,6 +48,7 @@ function getForecast(coordinates) {
   let apiKey = "5863935ee9cca4c02ed68203f807c65b";
   let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=imperial`;
   axios.get(apiUrl).then(displayForecast);
+
 }
 
 function displayTemperature(response) {
@@ -134,4 +135,3 @@ let fahrenheitLink = document.querySelector("#fahrenheit-link");
 fahrenheitLink.addEventListener("click", displayFahrenheitTemperature);
 
 search("Memphis");
-displayForecast();
